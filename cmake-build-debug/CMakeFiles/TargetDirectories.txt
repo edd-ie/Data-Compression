@@ -1,0 +1,3 @@
+X:/Code/C++/Data-Compression/cmake-build-debug/CMakeFiles/Data_Compression.dir
+X:/Code/C++/Data-Compression/cmake-build-debug/CMakeFiles/edit_cache.dir
+X:/Code/C++/Data-Compression/cmake-build-debug/CMakeFiles/rebuild_cache.dir
