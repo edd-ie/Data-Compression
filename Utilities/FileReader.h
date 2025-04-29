@@ -52,36 +52,6 @@ inline double stringToDouble(const std::string& str) {
     throw std::invalid_argument("String is not a valid double.");
 }
 
-inline bool importData(const string& fileName) {
-    try {
-        string fileContents = readFileIntoString(fileName);
-        if (fileContents.empty()) {
-            Logger::log(1, "%s: Failed to read file: %s\n", __FUNCTION__, fileName);
-            return false;
-        }
-
-        istringstream sstream(fileContents);
-        string record;
-        bool firstLine = true;
-        char delimiter = ',';
-
-        while (std::getline(sstream, record)) {
-            // istringstream line(record);
-            // while (std::getline(line, record, delimiter)) {
-            //     record.erase(ranges::remove_if(record, ::isspace).begin(), record.end());
-            //
-            //     if (firstLine) fields.push_back(record);
-            //     else data.push_back(stringToDouble(record));
-            // }
-            // if (firstLine) firstLine = false;
-        }
-
-        return true;
-    } catch (const std::exception& e) {
-        Logger::log(1, "%s: Error importing data: %s\n", __FUNCTION__, e.what());
-        return false;
-    }
-}
 
 // Generic function to save a vector of any type to a text file
 template <typename T>
