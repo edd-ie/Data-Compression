@@ -59,3 +59,8 @@
 1005	1170	7676749030317488	Data_Compression.exe	b19546823f8064f6
 6	1071	7676762394217296	CMakeFiles/Data_Compression.dir/Lossless/LempelZiv/LZ77.cpp.obj	64a6cb8836f7c29f
 1072	1241	7676762404866852	Data_Compression.exe	b19546823f8064f6
+7	1074	7676817885691864	CMakeFiles/Data_Compression.dir/main.cpp.obj	b0155667bfa9eb5d
+16	1173	7676817885771856	CMakeFiles/Data_Compression.dir/Lossless/LempelZiv/LZ77.cpp.obj	64a6cb8836f7c29f
+1173	1358	7676817897351855	Data_Compression.exe	b19546823f8064f6
+7	964	7676821219210409	CMakeFiles/Data_Compression.dir/main.cpp.obj	b0155667bfa9eb5d
+965	1127	7676821228780376	Data_Compression.exe	b19546823f8064f6

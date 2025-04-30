@@ -9,9 +9,9 @@ int main() {
     // std::cin >> fileName;
 
     const auto test1 = std::make_unique<LZ77Compressor>();
-    test1->encode("../Resources/small.txt");
+    test1->encode("../Resources/tiny.txt");
     test1->printData();
-    // test1->save("outTiny",0);
+    test1->save("outTiny",0);
 
     // const auto test2 = std::make_unique<LZ77Compressor>();
     // test2->load("small",0);
