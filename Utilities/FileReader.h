@@ -66,6 +66,7 @@ void saveVectorToTextFile(const std::vector<T>& vec, const std::string& filename
         Logger::log(2, "%s: Vector of type %s successfully saved to %s\n", __FUNCTION__, typeid(T).name(), filename.c_str());
     } else {
         Logger::log(0, "%s: Error opening file for writing: %s\n", __FUNCTION__, filename.c_str());
+        throw std::invalid_argument("Save Failed.");
     }
 }
 
@@ -85,10 +86,12 @@ std::vector<T> loadVectorFromTextFile(const std::string& filename) {
             Logger::log(2, "%s: Vector of type %s successfully loaded from %s\n", __FUNCTION__, typeid(T).name(), filename.c_str());
         } else {
             Logger::log(1, "%s: Error reading line from file: %s\n", __FUNCTION__, filename.c_str());
+            throw std::invalid_argument("Loading file Failed.");
         }
         inputFile.close();
     } else {
         Logger::log(0, "%s: Error opening file for reading: %s\n", __FUNCTION__, filename.c_str());
+        throw std::invalid_argument("Loading file Failed.");
     }
     return loadedVector;
 }
@@ -107,6 +110,7 @@ void saveVectorToBinaryFile(const std::vector<T>& vec, const std::string& filena
         Logger::log(2, "%s: Vector of type %s successfully saved to %s (binary)\n", __FUNCTION__, typeid(T).name(), filename.c_str());
     } else {
         Logger::log(0, "%s: Error opening binary file for writing: %s\n", __FUNCTION__, filename.c_str());
+        throw std::invalid_argument("Save Failed.");
     }
 }
 
@@ -123,18 +127,22 @@ std::vector<T> loadVectorFromBinaryFile(const std::string& filename) {
                 if (!inputFile.read(reinterpret_cast<char*>(loadedVector.data()), size * sizeof(T))) {
                     Logger::log(1, "%s: Error reading data of type %s from binary file: %s\n", __FUNCTION__, typeid(T).name(), filename.c_str());
                     loadedVector.clear();
-                } else {
-                    Logger::log(2, "%s: Vector of type %s successfully loaded from %s (binary)\n", __FUNCTION__, typeid(T).name(), filename.c_str());
+                    inputFile.close();
+                    throw std::invalid_argument("Loading file Failed.");
                 }
+                Logger::log(2, "%s: Vector of type %s successfully loaded from %s (binary)\n", __FUNCTION__, typeid(T).name(), filename.c_str());
             } else {
                 Logger::log(2, "%s: Loaded an empty vector of type %s from %s (binary)\n", __FUNCTION__, typeid(T).name(), filename.c_str());
             }
         } else {
             Logger::log(1, "%s: Error reading vector size from binary file: %s\n", __FUNCTION__, filename.c_str());
+            inputFile.close();
+            throw std::invalid_argument("Loading file Failed.");
         }
         inputFile.close();
     } else {
         Logger::log(0, "%s: Error opening binary file for reading: %s\n", __FUNCTION__, filename.c_str());
+        throw std::invalid_argument("Loading file Failed.");
     }
     return loadedVector;
 }
