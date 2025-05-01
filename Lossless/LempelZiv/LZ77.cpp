@@ -18,14 +18,13 @@ bool LZ77Compressor::encode(const std::string &fileName) {
             longest_pos = 0,
             searchTail_pos = 0,
             searchHead_pos = 0,
-            current_pos = 0,
-            max_search_buffer_size = 500;
+            current_pos = 0;
 
         searchBufferSize = 0;
-        char* searchHead;
-        char* current;
-        char* searchCusor;
-        char* lookAheadTail;
+        // char* searchHead;
+        // char* current;
+        // char* searchCusor;
+        // char* lookAheadTail;
 
         // while (*(current = &fileContents[current_pos]) != '\0') {
         //     searchHead = &fileContents[searchHead_pos];
@@ -89,12 +88,12 @@ bool LZ77Compressor::encode(const std::string &fileName) {
 
                 // Compare characters in the search and lookahead buffers
                 while (lookahead_pos < fileContents.length() &&
-                       search_pos < search_end &&
-                       fileContents[lookahead_pos] == fileContents[search_pos]) {
-                    current_match_length++;
-                    lookahead_pos++;
-                    search_pos++;
-                       }
+                    search_pos < search_end &&
+                    fileContents[lookahead_pos] == fileContents[search_pos]) {
+                        current_match_length++;
+                        lookahead_pos++;
+                        search_pos++;
+                    }
 
                 // Update the longest match if a longer one is found
                 if (current_match_length > longest_match_length) {
@@ -105,15 +104,14 @@ bool LZ77Compressor::encode(const std::string &fileName) {
 
             if (longest_match_length > 0) {
                 data.emplace_back(longest_match_distance, longest_match_length,
-                                  (current_pos + longest_match_length < fileContents.length()) ?
-                                  fileContents[current_pos + longest_match_length] : '\0');
+                (current_pos + longest_match_length < fileContents.length()) ?
+                    fileContents[current_pos + longest_match_length] : '\0');
                 current_pos += longest_match_length + 1; // Move past the matched sequence and the next char
             } else {
                 data.emplace_back(0, 0, fileContents[current_pos]);
                 current_pos++;
             }
         }
-
         return true;
     } catch (const std::exception& e) {
         Logger::log(1, "%s: Error importing data: %s\n", __FUNCTION__, e.what());
@@ -155,3 +153,51 @@ bool LZ77Compressor::load(const std::string &fileName, const int fileType) {
     }
 }
 
+bool LZ77Compressor::decode(const std::string &fileName) {
+    try {
+        std::ofstream file("../Resources/"+fileName+".txt", std::ios::out | std::ios::binary);
+        if (!file) {
+            Logger::log(1, "%s: Error creating the file: %s\n", __FUNCTION__, fileName);
+            return false;
+        }
+
+        // Buffer to store decoded text and handle back-references
+        std::string decodedBuffer;
+        decodedBuffer.reserve(data.size() * 2); // Reserve some space to minimize reallocations
+
+        for (const auto& token : data) {
+            // If we have a back reference (length > 0)
+            if (token.length > 0) {
+                // Calculate the start position for copying
+                size_t startPos = decodedBuffer.length() - token.distance;
+
+                // Copy the referenced sequence
+                for (unsigned short i = 0; i < token.length; ++i) {
+                    char c = decodedBuffer[startPos + i];
+                    decodedBuffer.push_back(c);
+                    file.put(c);
+                }
+            }
+
+            // Add the next character (if it's not null terminator)
+            if (token.next != '\0') {
+                decodedBuffer.push_back(token.next);
+                file.put(token.next);
+            }
+        }
+
+        file.close(); // Explicitly close the file
+
+        // Check if any errors occurred during writing
+        if (file.fail()) {
+            Logger::log(1, "%s: Error writing to file: %s\n", __FUNCTION__, fileName);
+            return false;
+        }
+
+        return true;
+    } catch (const std::exception& e) {
+        Logger::log(1, "%s: Error exporting data: %s\n", __FUNCTION__, e.what());
+        return false;
+    }
+
+}

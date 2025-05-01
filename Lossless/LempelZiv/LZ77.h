@@ -33,7 +33,7 @@ struct LZ77 {
         if (is >> lz77.distance >> lz77.length >> lz77.next) {
             return is;
         }
-        // If reading fails, set the failbit of the input stream
+        // If reading fails, set the fail bit of the input stream
         is.setstate(std::ios::failbit);
         return is;
     }
@@ -41,7 +41,8 @@ struct LZ77 {
 
 class LZ77Compressor {
     std::vector<LZ77> data;
-    unsigned short searchBufferSize{};
+    unsigned short searchBufferSize{},
+        max_search_buffer_size = 500;;
 public:
     LZ77Compressor()= default;
     bool encode(const std::string& fileName);
