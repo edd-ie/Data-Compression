@@ -14,14 +14,19 @@ int main() {
     // test2->load("encodeSmall",0);
     // test2->decode("decodeSmall");
 
-    std::cout << "Maximum value for uint16_t: " << static_cast<unsigned char>(1) << std::endl;
-    const auto test3 = std::make_unique<LZ78Compressor>();
-    test3->encode("../Resources/small.txt");
+    const std::string read = "../Resources/tiny.txt";
+    const std::string save = "lz78Tiny";
+    const std::string write = "lz78Decomp";
 
-    if(test3->save("lz78Small", 0)) {
+    std::cout << "Hello: " << static_cast<unsigned char>(1) << std::endl;
+    const auto test3 = std::make_unique<LZ78Compressor>();
+    test3->encode(read);
+
+    if(test3->save(save, 0)) {
         const auto test4 = std::make_unique<LZ78Compressor>();
-        test4->load("lz78Small", 0);
-        test4->printData();
+        test4->load(save, 0);
+        if (test4->decode(write))
+            std::cout << "\nWrite was successful\n";
     }
 
     return 0;

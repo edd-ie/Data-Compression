@@ -38,14 +38,12 @@ struct LZ78 {
 
 class LZ78Compressor {
     std::vector<LZ78>data;
-    std::unordered_map<unsigned short, std::string> dictionary;
-    std::unordered_map<std::string, unsigned short> symbolTable;
 
 public:
     LZ78Compressor()= default;
     bool encode(const std::string& fileName);
-    bool decode(const std::string& fileName);
-    bool save(const std::string& fileName, int fileType) const;
+    bool decode(const std::string& fileName) const;
+    [[nodiscard]] bool save(const std::string& fileName, int fileType) const;
     bool load(const std::string& fileName, int fileType);
     void printData() const;
 };
