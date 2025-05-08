@@ -14,63 +14,9 @@ bool LZ77Compressor::encode(const std::string &fileName) {
             return false;
         }
 
-        unsigned short longest = 0,
-            longest_pos = 0,
-            searchTail_pos = 0,
-            searchHead_pos = 0,
-            current_pos = 0;
+        unsigned short current_pos = 0;
 
         searchBufferSize = 0;
-        // char* searchHead;
-        // char* current;
-        // char* searchCusor;
-        // char* lookAheadTail;
-
-        // while (*(current = &fileContents[current_pos]) != '\0') {
-        //     searchHead = &fileContents[searchHead_pos];
-        //     searchCusor = searchHead;
-        //     lookAheadTail = current;
-        //
-        //     if (searchBufferSize == 0) {
-        //         data.emplace_back(0, 0, *current);
-        //         current_pos++;
-        //         searchBufferSize++;
-        //     }
-        //     else if (searchBufferSize > 500) {
-        //         searchBufferSize = searchBufferSize/2;
-        //         searchTail_pos = searchTail_pos + searchBufferSize;
-        //     }
-        //
-        //     // Finds the longest match
-        //     unsigned short counter = 0;
-        //     while (searchTail_pos < searchHead_pos && *lookAheadTail != '\0') {
-        //         if (*lookAheadTail == *searchCusor) {
-        //             counter++;
-        //             searchCusor++;
-        //             lookAheadTail++;
-        //         }
-        //         else {
-        //             if (counter > longest) {
-        //                 longest_pos = searchHead_pos;
-        //                 longest = counter;
-        //             }
-        //             searchHead_pos--;
-        //             searchHead = &fileContents[searchHead_pos];
-        //             searchCusor = searchHead;
-        //             lookAheadTail = current;
-        //             counter = 0;
-        //         }
-        //     }
-        //
-        //     if(longest_pos >0) longest_pos = current_pos-longest_pos;
-        //     current_pos+=longest;
-        //     data.emplace_back(longest_pos, longest, fileContents[current_pos]);
-        //     longest = 0;
-        //     longest_pos = 0;
-        //     searchHead_pos = current_pos;
-        //     current_pos++;
-        //     searchBufferSize++;
-        // }
 
         while (current_pos < fileContents.length()) {
             unsigned short longest_match_length = 0;

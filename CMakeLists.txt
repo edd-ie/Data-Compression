@@ -9,4 +9,7 @@ add_executable(Data_Compression main.cpp
         Utilities/FileReader.cpp
         Utilities/FileReader.h
         Lossless/LempelZiv/LZ77.h
-        Lossless/LempelZiv/LZ77.cpp)
+        Lossless/LempelZiv/LZ77.cpp
+        Lossless/LempelZiv/LZ78.h
+        Lossless/LempelZiv/LZ78.cpp
+)
